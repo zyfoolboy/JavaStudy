@@ -2,6 +2,7 @@ package com.zy.study.controller;
 
 import com.zy.study.config.JwtTokenUtil;
 import com.zy.study.dto.LoginParam;
+import com.zy.study.dto.RegisterParam;
 import com.zy.study.service.JwtAuthService;
 import com.zy.study.service.impl.JwtUserDetailServiceImpl;
 import com.zy.study.utils.ApiResult;
@@ -50,6 +51,14 @@ public class AuthController {
         tokenMap.put("token", token);
 
         return ApiResult.success(tokenMap);
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
+    public ApiResult register(@RequestBody RegisterParam registerParam) throws Exception {
+        Map<String, String> resultMap = new HashMap<>();
+
+        return ApiResult.success(resultMap);
     }
 
     @RequestMapping(value = "/first", method = RequestMethod.GET)
