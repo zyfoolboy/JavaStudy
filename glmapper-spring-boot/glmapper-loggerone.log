@@ -1,4 +1,0 @@
-2019-10-30 17:47:51.170 [http-nio-8080-exec-1] INFO  com.zy.study.controller.AuthController - info hello
-2019-10-30 17:47:51.170 [http-nio-8080-exec-1] ERROR com.zy.study.controller.AuthController - error hello
-2019-10-30 17:48:38.940 [http-nio-8080-exec-1] INFO  com.zy.study.controller.AuthController - info hello
-2019-10-30 17:48:38.941 [http-nio-8080-exec-1] ERROR com.zy.study.controller.AuthController - error hello
