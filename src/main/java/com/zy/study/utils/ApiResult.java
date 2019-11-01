@@ -34,6 +34,10 @@ public class ApiResult<T> {
         return new ApiResult<T>(ResultCode.SUCCESS.getCode(), message, data);
     }
 
+    public static <T> ApiResult<T> failed() {
+        return new ApiResult<T>(ResultCode.FAILED.getCode(), ResultCode.FAILED.getMessage(), null);
+    }
+
     public long getCode() {
         return code;
     }

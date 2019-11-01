@@ -1,7 +1,9 @@
 package com.zy.study.service.impl;
 
 import com.zy.study.dao.mapper.UserMapper;
+import com.zy.study.dto.RegisterParam;
 import com.zy.study.service.JwtAuthService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +42,18 @@ public class JwtAuthServiceImpl implements JwtAuthService {
     public String username() {
 
         com.zy.study.dao.model.User user = userMapper.selectByPrimaryKey(1);
-        return user.getName();
+        return user.getUsername();
+    }
+
+    @Override
+    public com.zy.study.dao.model.User register(RegisterParam registerParam) {
+        com.zy.study.dao.model.User user = new com.zy.study.dao.model.User();
+        BeanUtils.copyProperties(registerParam, user);
+
+        String encoderPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encoderPassword);
+        userMapper.insert(user);
+
+        return null;
     }
 }

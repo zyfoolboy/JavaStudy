@@ -10,5 +10,5 @@ public class RegisterParam {
 
     private String password;
 
-    private String mail;
+    private String email;
 }

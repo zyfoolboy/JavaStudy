@@ -1,6 +1,7 @@
 package com.zy.study.controller;
 
 import com.zy.study.config.JwtTokenUtil;
+import com.zy.study.dao.model.User;
 import com.zy.study.dto.LoginParam;
 import com.zy.study.dto.RegisterParam;
 import com.zy.study.service.JwtAuthService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -55,10 +57,12 @@ public class AuthController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public ApiResult register(@RequestBody RegisterParam registerParam) throws Exception {
-        Map<String, String> resultMap = new HashMap<>();
+    public ApiResult register(@RequestBody RegisterParam registerParam) {
+        User user = jwtAuthService.register(registerParam);
 
-        return ApiResult.success(resultMap);
+        Optional<User> userOpt = Optional.ofNullable(user);
+
+        return userOpt.map(ApiResult::success).orElse(ApiResult.failed());
     }
 
     @RequestMapping(value = "/first", method = RequestMethod.GET)
