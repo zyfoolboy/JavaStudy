@@ -29,20 +29,11 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public ApiResult login(@RequestBody LoginParam loginParam) {
-        String token = null;
-        try {
-            token = jwtAuthService.login(loginParam.getUsername(), loginParam.getPassword());
-        } catch (BadCredentialsException e) {
-            return ApiResult.failed();
-        }
+        Optional<String> optToken = jwtAuthService.login(loginParam.getUsername(), loginParam.getPassword());
 
-        if (token == null) {
-            return ApiResult.failed();
-        }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-
-        return ApiResult.success(tokenMap);
+        return optToken.map(t -> ApiResult.success(new HashMap<String, String>(){{
+            put("token", t);
+        }})).orElse(ApiResult.failed());
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

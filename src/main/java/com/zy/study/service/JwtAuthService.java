@@ -2,11 +2,12 @@ package com.zy.study.service;
 
 import com.zy.study.dao.model.User;
 import com.zy.study.dto.RegisterParam;
-import org.springframework.security.authentication.BadCredentialsException;
+
+import java.util.Optional;
 
 public interface JwtAuthService {
 
-    String login(String username, String password) throws BadCredentialsException;
+    Optional<String> login(String username, String password);
 
     String username();
 

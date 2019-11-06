@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class JwtAuthServiceImpl implements JwtAuthService {
 
@@ -35,31 +37,31 @@ public class JwtAuthServiceImpl implements JwtAuthService {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public String login(String username, String password) throws BadCredentialsException {
+    public Optional<String> login(String username, String password) {
         UserDetails userDetails = null;
         try {
             userDetails = jwtUserDetailService.loadUserByUsername(username);
             if (userDetails == null) {
-                throw new BadCredentialsException("user not found");
+               return Optional.empty();
             }
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-                throw new BadCredentialsException("password error");
+               return Optional.empty();
             }
         } catch (UsernameNotFoundException e) {
-            throw new BadCredentialsException("username not found");
+            return Optional.empty();
         }
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
-            throw new BadCredentialsException("user not found");
+            return Optional.empty();
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("password error");
+            return Optional.empty();
         }
 
         String token = jwtTokenUtil.generateToken(userDetails);
 
-        return token;
+        return Optional.ofNullable(token);
     }
 
     @Override
