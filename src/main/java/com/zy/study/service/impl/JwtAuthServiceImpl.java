@@ -38,7 +38,7 @@ public class JwtAuthServiceImpl implements JwtAuthService {
 
     @Override
     public Optional<String> login(String username, String password) {
-        UserDetails userDetails = null;
+        UserDetails userDetails;
         try {
             userDetails = jwtUserDetailService.loadUserByUsername(username);
             if (userDetails == null) {
@@ -53,9 +53,7 @@ public class JwtAuthServiceImpl implements JwtAuthService {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            return Optional.empty();
-        } catch (BadCredentialsException e) {
+        } catch (DisabledException | BadCredentialsException e) {
             return Optional.empty();
         }
 
